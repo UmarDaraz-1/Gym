@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .edit-member {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for the h2 heading */
+.edit-member h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Styling for form group elements */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Styling for labels */
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Styling for input and select elements */
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+/* Styling for the update button */
+.button-container {
+    text-align: center;
+}
+
+.update-button {
+    padding: 10px 20px;
+    background-color: #27ae60;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.update-button:hover {
+    background-color: #219653;
+}
+    </style>
+</head>
+<body>
+    
+<div class="edit-member">
+    <h2>Edit Member</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="{{ member.name }}" required autocomplete="off">
+        </div>
+
+        <div class="form-group">
+            <label for="phone_number">Phone Number:</label>
+            <input type="text" id="phone_number" name="phone_number" value="{{ member.phone_number }}" required autocomplete="off">
+        </div>
+
+        <div class="form-group">
+            <label for="fee_amount">Fee Amount:</label>
+            <input type="number" step="0.01" id="fee_amount" name="fee_amount" value="{{ member.fee_amount }}" required autocomplete="off">
+        </div>
+
+        <div class="form-group">
+            <label for="fee_date">Fee Date:</label>
+            <input type="date" id="fee_date" name="fee_date" value="{{ member.fee_date }}" required autocomplete="off">
+        </div>
+
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <select id="status" name="status" required>
+                <option value="Active" {% if member.status == 'Active' %}selected{% endif %}>Active</option>
+                <option value="Non Active" {% if member.status == 'Non Active' %}selected{% endif %}>Non Active</option>
+            </select>
+        </div>
+
+        <div class="button-container">
+            <button class="update-button" type="submit">Update Member</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

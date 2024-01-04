@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Dashboard</title>
+    
+    <style>
+        /* Reset some default styles */
+        body, h1, h2, h3, ul, li {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Styling the dashboard container */
+        .dashboard-container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Styling the header */
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Styling the sections */
+        .members-section, .members-due-section {
+            background-color: #f4f4f4;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        /* Styling the member list */
+        .member-list {
+            list-style: none;
+        }
+
+        .member-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+        }
+
+        .member-name {
+            font-weight: bold;
+        }
+
+        .member-fee {
+            color: #27ae60; /* Green color for fees */
+        }
+
+        .member-due-date {
+            color: #e74c3c; /* Red color for due dates */
+        }
+
+        /* Styling the member picture */
+        .member-picture img {
+            max-width: 80px;
+            height: auto;
+            border-radius: 50%;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Styling the action links */
+        .action-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Styling for action buttons */
+        .action-button {
+            padding: 6px 12px;
+            border: none;
+            background-color: #3498db;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Styling for cancel button */
+        .cancel-button {
+            background-color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h2>Gym Dashboard</h2>
+        </header>
+        <section class="members-section">
+            <h3>Members</h3>
+            <ul class="member-list">
+                {% for member in members %}
+                <li>
+                    <div class="member-picture">
+                        {% if member.picture %}
+                            <img src="{{ member.picture.url }}" alt="{{ member.name }} Picture">
+                        {% else %}
+                            <span>No Picture</span>
+                        {% endif %}
+                    </div>
+                    <div class="member-details">
+                        <span class="member-name">{{ member.name }}</span>
+                        <span class="member-fee">Fee: ${{ member.fee_amount }}</span>
+                        <span class="member-due-date">Due Date: {{ member.fee_date }}</span>
+                    </div>
+                    <div class="action-links">
+                        <a class="action-button" href="{% url 'update_member' member.id %}">Update</a>
+                        <a class="action-button cancel-button" href="{% url 'delete_member' member.id %}">Delete</a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+        <section class="members-due-section">
+            <h3>Members Due</h3>
+            <ul class="member-list">
+                {% for member in sorted_members_due %}
+                <li>
+                    <div class="member-picture">
+                        {% if member.picture %}
+                            <img src="{{ member.picture.url }}" alt="{{ member.name }} Picture">
+                        {% else %}
+                            <span>No Picture</span>
+                        {% endif %}
+                    </div>
+                    <div class="member-details">
+                        <span class="member-name">{{ member.name }}</span>
+                        <span class="member-fee">Fee: ${{ member.fee_amount }}</span>
+                        <span class="member-due-date">Due Date: {{ member.fee_date }}</span>
+                        <span class="member-status">Status: {{ member.status }}</span>
+                    </div>
+                    <div class="action-links">
+                        <a class="action-button" href="{% url 'update_member' member.id %}">Update</a>
+                        <a class="action-button cancel-button" href="{% url 'delete_member' member.id %}">Delete</a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
+</body>
+</html>
